@@ -1,0 +1,40 @@
+# Build settings
+gems:
+  - jemoji
+  - jekyll-paginate
+  - jekyll-feed
+
+# Site settings
+title: "Kaŭzoj"
+description: >
+   Causes to be active about.
+
+email: a-mail@mail.mail
+#blog logo
+logo: "/assets/images/df_logo.jpg"
+float_logo: true # true, false (default)
+# blog cover
+cover: "/assets/images/cA4aKEIPQrerBnp1yGHv_IMG_9534-3-2.jpg"
+name: 'Pensuloj'
+author: 'Pensuloj'
+author_image: "/assets/images/author.jpg"
+paginate:	5
+url: "https://kauzoj.github.io"
+baseurl: ""
+twitter_handle: '@dirkfabisch'
+social:
+  - icon:	twitter
+    url:	https://twitter.com/thetoxicarcade
+    desc: Follow me on twitter
+    share_url: http://twitter.com/share
+    share_title: ?text=
+    share_link: "&amp;url="
+  - icon:	github
+    url:	https://github.com/kauzoj
+    desc:	Fork me on github
+    share_url:
+    share_title:
+    share_link:
+exclude:
+  - Gemfile
+  - Gemfile.lock
