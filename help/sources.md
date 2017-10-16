@@ -12,6 +12,20 @@ to the [tracker].
 
 > todo: ranking system / categorization / note how many issues are marked by each source
 
+* Local
+  * Boomerang
+  * Casper Tribune
+  * Cheyenne (somthing)
+  * Billings Gazette
+* Daily Papers
+  * USA Today
+  * New York Times
+  * Washington Post
+* Periodicals
+  * TIME
+* YouTube
+  * SciShow
+  * Vox
 * Critical Comedy
   * [Adam Ruins Everything](https://en.wikipedia.org/wiki/Adam_Ruins_Everything)
   * [Last Week Tonight](https://en.wikipedia.org/wiki/List_of_Last_Week_Tonight_with_John_Oliver_episodes)
