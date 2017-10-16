@@ -1,0 +1,31 @@
+<span class="label label-success" id="options">
+  <div>
+    <i v-if="showedit" class="fa fa-3x fa-clone" aria-hidden="true"
+    v-clipboard:copy="output"
+    v-clipboard:success="copySuccess"></i>
+    <i v-if="showedit" v-on:click="showedit = false; editing = false;" class="fa fa-3x fa-times" aria-hidden="true"></i>
+    <i v-if="showOriginalButton" v-on:click="showarticle = ! showarticle; supreceed = ! supreceed" class="fa fa-3x fa-eye" aria-hidden="true"></i>
+    <i v-if="supreceed && ! editing" v-on:click="showedit = true; editing = true" class="fa fa-3x fa-pencil" aria-hidden="true"></i>
+    <i v-if="parentalControls" v-on:click="floodpage=true;"class="fa fa-3x fa-users" aria-hidden="true"></i>
+    <i v-if="!parentalControls" v-on:click="floodpage=true;" class="fa fa-3x fa-lock" aria-hidden="true"></i>
+  </div>
+</span>
+<div id="instructions" v-if="copyalert" class="alert alert-warning alert-dismissible" role="alert">
+  <i v-on:click="copyalert = false;" class="fa fa-2x fa-times" aria-hidden="true"></i>
+  <strong>Copied!</strong> Paste it into this page's `source` section in the
+  <a href="{{ site.data.external.github_link.url }}/blob/master/{{page.path}}">frontmatter</a>.
+</div>
+<div id="o18pflood" v-if="false" >
+  <div class="lightercenter">
+    <h1>Objectionable Content Ahead!</h1>
+    <p>Set your preference:</p>
+    <div id="coolopts" class="container">
+      <div class="col-xs-3 centerize">
+        <button class="btn btn-danger" v-on:click="parental('off');"><p>Show<i class="fa fa-3x fa-users" aria-hidden="true"></i></p></button>
+      </div>
+      <div class="col-xs-3 centerize">
+        <button class="btn btn-info" v-on:click="parental('on');"><p>Hide<i class="fa fa-3x fa-lock" aria-hidden="true"></i></p></button>
+      </div>
+    </div>
+  </div>
+</div>

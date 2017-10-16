@@ -1,0 +1,12 @@
+<nav>
+  <h1 class="left-title">{{ site.title }}</h1>
+  <input class="center-searchbox form-control">
+  <div class="pagelinks">
+    {% for page in site.data.pagelinks %}
+      <a href="{{page.url}}" title="{{page.title}}">
+      {% if page.icon %}
+        <i class="fa fa-{{ page.icon }}"></i>
+      {% endif %}
+      </a>
+    {% endfor %}
+</nav>

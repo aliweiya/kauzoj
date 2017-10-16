@@ -3,3 +3,12 @@ _site
 .jekyll-metadata
 .DS_Store
 Gemfile.lock
+*.pyc
+__pycache__
+secret.key
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
+
+node_modules/
+platforms/
+plugins/

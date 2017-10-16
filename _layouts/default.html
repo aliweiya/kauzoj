@@ -1,25 +1,40 @@
 <!DOCTYPE html>
 <html>
 
-  {% include head.html %}
-
-  <body>
-
-    {% include header.html %}
-
-    <!-- content start -->
-
-    <div class="page-content">
-      <div class="wrapper">
-        {{ content }}
+{% include templating/head.html %}
+<body>
+  {% include templating/header.html %}
+  <div id="appt">
+    {% if page.source %}
+    <input id="source" value="{{page.source}}" hidden></input>
+    {% endif %}
+    {% if page.parental %}
+    <input id="parental" value="{{page.parental}}" hidden></input>
+    {% endif %}
+    {% for i in page.includes %}
+    {% include {{i}} %}
+    {% endfor %}
+    {% include templating/quicktag-code.html %}
+    {% include templating/edit-box.html %}
+    <div class="wrapper">
+      {% for d in page.divs %}
+      <div id="{{d}}"><h1>{{d}}</h1></div>
+      {% endfor %}
+      <div v-bind:class="{ 'badeditor': showedit}">
+        <div class="col-md-6 form-group editspace" v-if="showedit">
+          <textarea :value="input" @input="update" id="editor" class="form-control editspace"></textarea>
+        </div>
+        <div v-bind:class="{ 'col-md-6': showedit, 'well': showedit }" v-if="supreceed" v-html="compiledMarkdown">
+        </div>
       </div>
+      <div id="article" v-if="showarticle">
+        {{content}}
+      </div>
+      <div v-if="false" id="loading"></div>
     </div>
-
-    <!-- content end -->
-
-    {% include footer.html %}
-    {% include javascripts.html %}
-
-  </body>
+    {% include templating/footer.html %}
+    {% include templating/javascripts.html %}
+  </div>
+</body>
 
 </html>

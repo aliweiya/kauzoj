@@ -1,0 +1,17 @@
+@import vars/_color
+=quicktags-style($color)
+  background-color: desaturate(lighten($color,10%),10%)
+  border-color: saturate(darken($color, 10%),10%)
+
+.concept
+  @include quicktags-style($orange-attack)
+.editing
+  @include quicktags-style($pink-persuede)
+.opinion
+  @include quicktags-style($green-machine)
+.review
+  @include quicktags-style($grey-bluey)
+.urgent
+  @include quicktags-style($red-attack)
+.WIP
+  @include quicktags-style($orange-attack)

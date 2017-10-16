@@ -1,89 +1,400 @@
 ---
 layout: default
 ---
-
-<div class="teaserimage">
-    <div class="teaserimage-image" {% if site.cover %}style="background-image: url({{ site.cover | prepend: site.baseurl }})"{% endif %}>
-        Teaser Image
+  {% for post in paginator.posts %}
+    <div>
+          <h2 class="post-title" itemprop="name"><a href="{{ post.url | prepend: site.baseurl }}" itemprop="url">{{ post.title }}</a></h2>
+          <p>{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
+          <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
     </div>
+  {% endfor %}
 </div>
-
-<header class="blog-header">
-    {% if site.logo %}
-      <a class="blog-logo" href="{{site.url}}{{site.baseurl}}" style="background-image: url('{{ site.logo | prepend: site.baseurl }}')">{{ site.title }}</a>
+<nav class="pagination" role="navigation">
+  {% if paginator.next_page %}
+    <a class="newer-posts" href={{ "/page" | prepend: site.baseurl | append: paginator.next_page }}>&larr; Older posts</a>
+  {% endif %}
+  <span class="page-number">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+  {% if paginator.previous_page %}
+    {% if paginator.page == 2 %}
+      <a class="older-posts" href={{ "/" | prepend: site.baseurl }}>Newer posts &rarr;</a>
+    {% else %}
+      <a class="older-posts" href={{ "/page" | prepend: site.baseurl | append: paginator.previous_page }}>Newer posts &rarr;</a>
     {% endif %}
-    <h1 class="blog-title">{{ site.title }}</h1>
-    <h2 class="blog-description">{{ site.description }}</h2>
-    <div class="custom-links">
-      {% for social in site.social %}
-        {% if social.url %}
-            <a class="icon-{{ social.icon }}" href="{{ social.url }}" {% if social.desc %} title="{{ social.desc }}"{% endif %}">
-              <i class="fa fa-{{ social.icon }}"></i>
-            </a>
-            &nbsp;&nbsp;·&nbsp;&nbsp;
-        {% endif %}
-      {% endfor %}
-      <a href={{ "/about/" | prepend: site.baseurl }}>About</a>
-    </div>
-</header>
+  {% endif %}
+</nav>
 
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Flask-SocketIO Test</title>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            // Use a "/test" namespace.
+            // An application can open a connection on multiple namespaces, and
+            // Socket.IO will multiplex all those connections on a single
+            // physical channel. If you don't care about multiple channels, you
+            // can set the namespace to an empty string.
+            namespace = '/test';
 
-<main class="content" role="main">
+            // Connect to the Socket.IO server.
+            // The connection URL has the following format:
+            //     http[s]://<domain>:<port>[/<namespace>]
+            var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
 
-    {% if site.tags.featured %}
-    <h5 class="index-headline featured"><span>Featured</span></h5>
+            // Event handler for new connections.
+            // The callback function is invoked when a connection with the
+            // server is established.
+            socket.on('connect', function() {
+                socket.emit('my_event', {data: 'I\'m connected!'});
+            });
 
-    <div class="container featured">
-      {% for post in site.tags.featured %}
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting" role="article">
-          <div class="article-item">
-            <header class="post-header">
-              <h2 class="post-title" itemprop="name"><a href="{{ post.url | prepend: site.baseurl }}" itemprop="url">{{ post.title }}</a></h2>
-            </header>
-            <section class="post-excerpt" itemprop="description">
-              <p>{{ post.content | strip_html | truncatewords: 50 }}</p>
-            </section>
-            <div class="post-meta">
-              <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
+            // Event handler for server sent data.
+            // The callback function is invoked whenever the server emits data
+            // to the client. The data is then displayed in the "Received"
+            // section of the page.
+            socket.on('my_response', function(msg) {
+                $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
+            });
+
+            // Interval function that tests message latency by sending a "ping"
+            // message. The server then responds with a "pong" message and the
+            // round trip time is measured.
+            var ping_pong_times = [];
+            var start_time;
+            window.setInterval(function() {
+                start_time = (new Date).getTime();
+                socket.emit('my_ping');
+            }, 1000);
+
+            // Handler for the "pong" message. When the pong is received, the
+            // time from the ping is stored, and the average of the last 30
+            // samples is average and displayed.
+            socket.on('my_pong', function() {
+                var latency = (new Date).getTime() - start_time;
+                ping_pong_times.push(latency);
+                ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
+                var sum = 0;
+                for (var i = 0; i < ping_pong_times.length; i++)
+                    sum += ping_pong_times[i];
+                $('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
+            });
+
+            // Handlers for the different forms in the page.
+            // These accept data from the user and send it to the server in a
+            // variety of ways
+            $('form#emit').submit(function(event) {
+                socket.emit('my_event', {data: $('#emit_data').val()});
+                return false;
+            });
+            $('form#broadcast').submit(function(event) {
+                socket.emit('my_broadcast_event', {data: $('#broadcast_data').val()});
+                return false;
+            });
+            $('form#join').submit(function(event) {
+                socket.emit('join', {room: $('#join_room').val()});
+                return false;
+            });
+            $('form#leave').submit(function(event) {
+                socket.emit('leave', {room: $('#leave_room').val()});
+                return false;
+            });
+            $('form#send_room').submit(function(event) {
+                socket.emit('my_room_event', {room: $('#room_name').val(), data: $('#room_data').val()});
+                return false;
+            });
+            $('form#close').submit(function(event) {
+                socket.emit('close_room', {room: $('#close_room').val()});
+                return false;
+            });
+            $('form#disconnect').submit(function(event) {
+                socket.emit('disconnect_request');
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Flask-SocketIO Test</h1>
+    <p>Async mode is: <b>{{ async_mode }}</b></p>
+    <p>Average ping/pong latency: <b><span id="ping-pong"></span>ms</b></p>
+    <h2>Send:</h2>
+    <form id="emit" method="POST" action='#'>
+        <input type="text" name="emit_data" id="emit_data" placeholder="Message">
+        <input type="submit" value="Echo">
+    </form>
+    <form id="broadcast" method="POST" action='#'>
+        <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
+        <input type="submit" value="Broadcast">
+    </form>
+    <form id="join" method="POST" action='#'>
+        <input type="text" name="join_room" id="join_room" placeholder="Room Name">
+        <input type="submit" value="Join Room">
+    </form>
+    <form id="leave" method="POST" action='#'>
+        <input type="text" name="leave_room" id="leave_room" placeholder="Room Name">
+        <input type="submit" value="Leave Room">
+    </form>
+    <form id="send_room" method="POST" action='#'>
+        <input type="text" name="room_name" id="room_name" placeholder="Room Name">
+        <input type="text" name="room_data" id="room_data" placeholder="Message">
+        <input type="submit" value="Send to Room">
+    </form>
+    <form id="close" method="POST" action="#">
+        <input type="text" name="close_room" id="close_room" placeholder="Room Name">
+        <input type="submit" value="Close Room">
+    </form>
+    <form id="disconnect" method="POST" action="#">
+        <input type="submit" value="Disconnect">
+    </form>
+    <h2>Receive:</h2>
+    <div id="log"></div>
+</body>
+</html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
+    </head>
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1-4"></div>
+            <div class="pure-u-1-2">
+                <h1>Flask-SocketIO Sessions example</h1>
+
+                <div class="pure-form">
+                    <h2>HTTP</h2>
+                    <div class="pure-g">
+                        <div class="pure-u-1-6"><h3>Session</h3></div>
+                        <div class="pure-u-5-6">
+                            <p>Current session: <b><span id="http-session"></span></b></p>
+                            <p>
+                                <input type=text id='http-session-set' placeholder="Set session to...">
+                                <button class="pure-button pure-button-primary" id="submit-http">Submit</button>
+                            </p>
+                        </div>
+                        <div class="pure-u-1-6"><h3>User</h3></div>
+                        <div class="pure-u-5-6">
+                            <p>Current user: <b><span id="http-user"></span></b></p>
+                            <p>
+                                <input type=text id='http-user-set' placeholder="User to login...">
+                                <button class="pure-button pure-button-primary" id="login-http">Login</button>
+                                <button class="pure-button pure-button-primary" id="logout-http">Logout</button>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h2>Socket.IO</h2>
+                    <p><button class="pure-button pure-button-primary" id="connect">Connect</button></p>
+                    <div id="socketio" style="display: none">
+                        <div class="pure-g">
+                            <div class="pure-u-1-6"><h3>Session</h3></div>
+                            <div class="pure-u-5-6">
+                                <p>Current session: <b><span id="socketio-session"></span></b></p>
+                                <p>
+                                    <input type=text id='socketio-session-set' placeholder="Set session to...">
+                                    <button class="pure-button pure-button-primary" id="submit-socketio">Submit</button>
+                                </p>
+                            </div>
+                            <div class="pure-u-1-6"><h3>User</h3></div>
+                            <div class="pure-u-5-6">
+                                <p>Current user: <b><span id="socketio-user"></span></b></p>
+                                <p>
+                                    <input type=text id='socketio-user-set' placeholder="User to login...">
+                                    <button class="pure-button pure-button-primary" id="login-socketio">Login</button>
+                                    <button class="pure-button pure-button-primary" id="logout-socketio">Logout</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </article>
-      {% endfor %}
-    </div>
+            <div class="pure-u-1-4"></div>
+        </div>
 
-    <h5 class="index-headline normal"><span>Regular</span></h5>
-    {% endif %}
+        <script>
+            // HTTP handlers
+            window.setInterval(function() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/session',
+                    success: function(data) {
+                        $('#http-session').text(data['session']);
+                        $('#http-user').text(data['user']);
+                    }
+                });
+            }, 1000);
 
-    <div class="cf frame">
-      {% for post in paginator.posts %}
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting" role="article">
-          <div class="article-item">
-            <header class="post-header">
-              <h2 class="post-title" itemprop="name"><a href="{{ post.url | prepend: site.baseurl }}" itemprop="url">{{ post.title }}</a></h2>
-            </header>
-            <section class="post-excerpt" itemprop="description">
-              <p>{{ post.excerpt | strip_html | truncatewords: 50 }}</p>
-            </section>
-            <div class="post-meta">
-              <time datetime="{{ post.date | date_to_long_string }}">{{ post.date | date_to_long_string }}</time>
+            $('#submit-http').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/session',
+                    data: JSON.stringify({session: $('#http-session-set').val()}),
+                    contentType: 'application/json'
+                });
+            });
+            $('#login-http').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/session',
+                    data: JSON.stringify({user: $('#http-user-set').val()}),
+                    contentType: 'application/json'
+                });
+            });
+            $('#logout-http').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/session',
+                    data: JSON.stringify({user: null}),
+                    contentType: 'application/json'
+                });
+            });
+
+
+            // Socket.IO handlers
+            var socket = null;
+
+            $('#connect').click(function() {
+                if (!socket) {
+                    socket = io.connect(location.href);
+                    socket.on('refresh-session', function(data) {
+                        $('#socketio-session').text(data['session']);
+                        $('#socketio-user').text(data['user']);
+                    });
+
+                    $('#connect').text('Disconnect');
+                    $('#socketio').show();
+                }
+                else {
+                    socket.disconnect();
+                    socket = null;
+                    $('#socketio').hide();
+                    $('#connect').text('Connect');
+                    $('#socketio-session').text('');
+                    $('#socketio-user').text('');
+                }
+            });
+
+            window.setInterval(function() {
+                if (socket)
+                    socket.emit('get-session');
+            }, 1000);
+
+            $('#submit-socketio').click(function() {
+                socket.emit('set-session', {session: $('#socketio-session-set').val()});
+            });
+            $('#login-socketio').click(function() {
+                socket.emit('set-session', {user: $('#socketio-user-set').val()});
+            });
+            $('#logout-socketio').click(function() {
+                socket.emit('set-session', {user: null});
+            });
+        </script>
+    </body>
+</html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+  </head>
+  <body ng-app="starter">
+    <!--
+      The nav bar that will be updated as we navigate between views.
+    -->
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+    </ion-nav-bar>
+    <!--
+      The views will be rendered in the <ion-nav-view> directive below
+      Templates are in the /templates folder (but you could also
+      have templates inline in this html file if you'd like).
+    -->
+    <ion-nav-view></ion-nav-view>
+  </body>
+</html>
+
+
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>Hello World</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
             </div>
-          </div>
-        </article>
-      {% endfor %}
-    </div>
-
-    <nav class="pagination" role="navigation">
-      {% if paginator.next_page %}
-        <a class="newer-posts" href={{ "/page" | prepend: site.baseurl | append: paginator.next_page }}>&larr; Older posts</a>
-      {% endif %}
-      <span class="page-number">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
-      {% if paginator.previous_page %}
-        {% if paginator.page == 2 %}
-          <a class="older-posts" href={{ "/" | prepend: site.baseurl }}>Newer posts &rarr;</a>
-        {% else %}
-          <a class="older-posts" href={{ "/page" | prepend: site.baseurl | append: paginator.previous_page }}>Newer posts &rarr;</a>
-        {% endif %}
-      {% endif %}
-    </nav>
-
-</main>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>

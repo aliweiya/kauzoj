@@ -1,0 +1,21 @@
+{
+  "name": "Hearsay - Kauzoj",
+  "description": "The API server for Kauzoj's lazyport and editors.",
+  "keywords": [
+    "flask",
+    "python",
+  ],
+  "image": "heroku/python",
+  "environments": {
+    "test": {
+      "scripts": {
+        "test-setup": "pip install green",
+        "test": "green -vvv"
+      }
+    }
+  },
+  "repository": "https://github.com/kauzoj/hearsay",
+  "addons": [
+    "heroku-postgresql"
+  ]
+}

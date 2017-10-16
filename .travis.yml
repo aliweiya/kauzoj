@@ -13,3 +13,63 @@ env:
 
 sudo: false
 cache: bundler
+language: python
+python:
+- '2.7'
+- '3.3'
+- '3.4'
+- '3.5'
+- '3.6'
+cache: pip
+# since OSX Python isn't supported, we cheat.
+matrix:
+  include:
+  - os: osx
+    sudo: required
+    language: generic
+    cache: bundler
+    env: py='2.7'
+  - os: osx
+    sudo: required
+    language: generic
+    cache: bundler
+    env: py='3.3'
+  allow_failures:
+  - os: osx
+# todo: add back the other Python3 binaries (if the brew has a tap for them)
+# then use virtualenv to set a specific binary
+before_install: >
+  if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
+    brew update;
+    if [[ $py == 3* ]]; then
+      brew install python3;
+    elif [[ $py == '2.7' ]]; then
+      brew outdated python || brew upgrade python;
+    fi
+  fi
+install:
+- pip install -r requirements.txt
+- pip install pylint green
+script:
+- python setup.py build
+- green congredi -vvv
+# Everything should be python 2 & 3 compatible now.
+# If it isn't, might rewrite v3works / v3breaks.
+# - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then green congredi; fi
+# - if [[ $TRAVIS_PYTHON_VERSION == 3* ]]; then ./scripts.sh v3works && echo "partial
+#   compatibility holding"; fi
+# - if [[ $TRAVIS_PYTHON_VERSION == 3* ]]; then ./scripts.sh v3breaks || echo "still
+#   incompatible"; fi
+- python setup.py install
+- pylint congredi || if [[ $TRAVIS_PYTHON_VERSION == 3* || $py == 3* ]]; then echo "python3 pylint... you vex me"; else return 1; fi
+# OSX is a bit slow at best. Not building docs...
+- if [[ $TRAVIS_OS_NAME != 'osx' ]]; then pip install mkdocs mkdocs-bootswatch; mkdocs build; fi
+deploy:
+  provider: pypi
+  user: thetoxicarcade
+  password:
+    secure: EJNZI2uOL+QsqvN3tBg0jGryZ4x32XstywUy8/01SFT/FgXFiO8qVj4/GMAcbV0fDazFn3+DQ0gW+JV04qvtawXqgWvu905uURB8qiYyVhTxiZGYlPBAEC224IOCP36SfhdtrZzGDCmyy6ZZPh6Qh1ceyGBTBZLxu3SETTFaF9//pEeuv9OCWG2Emt1nXk9rr87GungBfeqjiNpAFtt5oHSmN+IztR9qMg7yrmfAoYl18A7TVOr6Zyns8DcS/ePTTx3eH2EuJ044xjLz1yoEPkvAlgx1xhH0w7dfc1VGZFccvwrVbFKeazqTX/K4ugGPAPMbvyrWrCWskn9LSLUWextdtKUeEFuN/m7lAuiooAmvf+4ay4mjocwkvxDeCsEICuzwR+oJXFKNQ+PZagXjKW1NYKYx6alcuerVnnWcx9ptMz60yI2uEtQzwpi6FAOEx4qyIPAgJzL1KCdO8UGIgsUkB3FcZHREb+ramGT+HrAaQyokNylI8EzUjSoYW4mYavNpOOxizN2bmEC/6L3Lpywr9j6N2nqtsjZw840PAhYl+OXu6LdNG9c4zG3NNoU//8F8CyKiQkcLzR9F8dTMJXvMg1hbelkJiaHNIEkdfiGm6P/Bn8rUEXbti3XqMyXar2xnwKSUAQ1CKj8mruLuxnkibYShC238VpacQ4RsbV8=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: congredi/congredi

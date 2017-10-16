@@ -1,0 +1,12 @@
+Aelx:
+  name: Cameron Whiting
+  bio: >
+    Well, much ado about something
+  author_image: "/assets/images/author.jpg"
+all:
+  name: Kaŭzoj Writers
+  bio: >
+    Kaŭzoj is written by a great team. Learn
+    more [here]](/people/).
+  author_image: "/assets/images/author.jpg"
+  

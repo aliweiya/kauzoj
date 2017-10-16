@@ -1,0 +1,19 @@
+<!-- need to merge some of these links... -->
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.1/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/vue.resource/0.7.0/vue-resource.min.js"></script>
+<script src="https://unpkg.com/vue-clipboard2@0.0.6/dist/vue-clipboard.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/marked@0.3.6"></script>
+<script type="text/javascript" src="https://unpkg.com/lodash@4.16.0"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/to-markdown@3.1.0/dist/to-markdown.js"></script>
+<script type="text/javascript" src="{{ "/assets/js/O18P.js" | prepend: site.baseurl  }}"></script>
+<script type="text/javascript" src="{{ "/assets/js/XORCipher.js" | prepend: site.baseurl  }}"></script>
+<script type="text/javascript" src="{{ "/assets/js/edit.js" | prepend: site.baseurl  }}"></script>
+{% if page.graph %}
+<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+{% endif %}
+{% for script in page.scripts %}
+  <script src="{{script}}"></script>
+{% endfor %}
+<link rel="stylesheet" href="https://unpkg.com/vue-form-wizard/dist/vue-form-wizard.min.css">

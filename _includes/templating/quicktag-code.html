@@ -1,0 +1,10 @@
+<div id="quicktag-notices">
+{% for notice in page.quicktags %}
+  {% assign style=site.data.quicktags[{{notice}}].style %}
+  {% assign msg=site.data.quicktags[{{notice}}].msg %}
+  <div class="bootstrap-well {{style}} nocontent call">
+  <p>{{msg}}. <a href="{{ site.data.external.github_link.url }}/blob/master/{{page.path}}">Edit Page</a></p>
+  </div>
+
+{% endfor %}
+</div>

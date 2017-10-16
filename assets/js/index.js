@@ -1,29 +1,46 @@
-/**
- * Main JS file for Casper behaviours
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+var app = {
+    // Application Constructor
+    initialize: function() {
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+    },
 
-/*globals jQuery, document */
-(function ($) {
-    "use strict";
+    // deviceready Event Handler
+    //
+    // Bind any cordova events here. Common events are:
+    // 'pause', 'resume', etc.
+    onDeviceReady: function() {
+        this.receivedEvent('deviceready');
+    },
 
-    $(document).ready(function(){
+    // Update DOM on a Received Event
+    receivedEvent: function(id) {
+        var parentElement = document.getElementById(id);
+        var listeningElement = parentElement.querySelector('.listening');
+        var receivedElement = parentElement.querySelector('.received');
 
-        $(".post-content").fitVids();
-        
-        // Calculates Reading Time
-        $('.post-content').readingTime({
-            readingTimeTarget: '.post-reading-time',
-            wordCountTarget: '.post-word-count',
-        });
-        
-        // Creates Captions from Alt tags
-        $(".post-content img").each(function() {
-            // Let's put a caption if there is one
-            if($(this).attr("alt") && !$(this).hasClass("emoji"))
-              $(this).wrap('<figure class="image"></figure>')
-              .after('<figcaption>'+$(this).attr("alt")+'</figcaption>');
-        });
-        
-    });
+        listeningElement.setAttribute('style', 'display:none;');
+        receivedElement.setAttribute('style', 'display:block;');
 
-}(jQuery));
+        console.log('Received Event: ' + id);
+    }
+};
+
+app.initialize();
