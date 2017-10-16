@@ -1,27 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-JWT tokens (for web interface, mostly, as all peer operations function on
-public key cryptography).
-
-
-Tokens provide heartbeat functionality, and do not log the user directly
-into the database. Any of the methods in "register" give the user a long-term
-JWT by using these functions.
-
-Currently no expire function exists without turning over the main auth key,
-and that would need to tell other gateways that the main key needs to rotate.
-
-Maybe someone has a better way of handling short JWT-style auths?
-
-"""
 from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
+"""
+Low level security because hey, I'm lazy.
+"""
+
 import jwt
 import datetime
-# class object JWT implementation
-
 
 class token():
     """Simple JWT implementation"""
@@ -57,25 +44,3 @@ class token():
         }
         json = jwt.encode(payload, self.secret, algorithm='HS256')
         return json.decode('unicode_escape')
-
-"""Example flask routes (will probably still be using twisted HTTP libs..."""
-from klein import Klein
-app = Klein()
-gate = token('password')
-
-
-@app.route('/pgp/<request>', methods=['GET'])
-def jwt_get(request):  # test
-    pgpkey = request
-    return gate.make(pgpkey)
-
-
-@app.route('/api/<tokn>', methods=['GET'])
-def jwt_use(tokn):  # test
-    response, checks = gate.check(tokn)
-    print(checks)
-    # if checks: return func(response) # response is pgp fingerprint
-    # else:
-    return response  # response is token error
-# congredi/auth/token.py                      39     12    69%   41-44,
-# 66-68, 73-79

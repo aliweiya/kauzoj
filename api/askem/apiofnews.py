@@ -1,9 +1,27 @@
 #!/usr/bin/env python3
-from funcs import *
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+doc
+"""
+from __future__ import absolute_import
+from __future__ import unicode_literals
+
 from dateutil import parser
 import datetime
 from shutil import copyfile
 import json
+
+
+def getsources(key):
+    return sources.Sources(API_KEY=key).get(language="en")['sources']
+def getarticles(source,key):
+    try:
+        result = articles.Articles(API_KEY=key).get(source=source)['articles']
+    except: result = []
+    return result
+
+
 key = getkey()
 
 dates = {}
@@ -47,9 +65,6 @@ copyfile('db/articledb.json', dst)
 
 
 
-#!/usr/bin/env python
-#!/usr/bin/env python
-from funcs import *
 file = args()
 post = load(file)
 content_1 = decrypt(post['source'])
@@ -59,8 +74,6 @@ post['source'] = encrypt(final)
 post.content = final
 print(post)
 dump(post,file)
-#!/usr/bin/env python
-from funcs import *
 file = args()
 post = load(file)
 post['source'] = encrypt(post.content)
@@ -68,10 +81,6 @@ post['encrypted'] = True
 post.content = "> this post has been encrypted.\n"
 print(post)
 dump(post,file)
-
-#!/usr/bin/env python
-from funcs import *
-
 # try:
 print("Begin News Loop.")
 key = getkey()
@@ -96,12 +105,6 @@ while True:
     while True:
         addsearch(input)
     # except: pass
-
-# except:
-#     print("Finalized.")
-#!/usr/bin/env python
-from funcs import *
-
 file = args()
 
 post = load(file)
@@ -109,55 +112,10 @@ post = load(file)
 true_content = decrypt(post['source'])
 
 print(true_content)
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-doc
-"""
-from __future__ import absolute_import
-from __future__ import unicode_literals
-# pylint: disable=missing-docstring,invalid-name,bad-continuation,unused-import,too-few-public-methods
-from .crypto import AONTencrypt, AONTdecrypt, default_aes, XOR
-class thwart(object):
-    def __init__(self, inputs):
-        if inputs.locked:
-            if inputs.version == 1.01:
-                self.content = AONTdecrypt(inputs.content)
-#!/usr/bin/env python
-from funcs import *
+
 file = args()
 post = load(file)
 post.content = decrypt(post['source'])
 post['encrypted'] = False
 print(post)
 dump(post,file)
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-doc
-"""
-from __future__ import absolute_import
-from __future__ import unicode_literals
-# pylint: disable=missing-docstring,invalid-name,bad-continuation,unused-import,too-few-public-methods,pointless-string-statement
-
-from .objects import Article, Author, Sources, Signature
-from .thwart import thwart
-from .server import default_server
-
-class writer():
-    def pull(self):
-        pass
-    def push(self):
-        pass
-    def open(self):
-        pass
-class client():
-    pass
-
-"""
-new article, list articles, new source, list sources
-
-CRUD/ACID/BASe
-
-
-"""
