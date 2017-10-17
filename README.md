@@ -30,3 +30,10 @@ heroku addons:create heroku-postgresql:hobby-dev
 # redis addon?
 git push heroku master
 ```
+
+### Rabbit MQ
+
+```
+sudo apt-get install rabbitmq-server
+celery -A tasks worker --loglevel=info
+```

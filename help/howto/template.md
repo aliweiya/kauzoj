@@ -1,6 +1,6 @@
 ---
   layout: default
-  title: Issue Template
+  title: Piece Template
   origin:
     credit: NameOfStation
     link: hyperlink/description
@@ -24,7 +24,7 @@
     A summary
 ---
 
-This is a template for an issue. Copy it for new issues.
+This is a template for a piece. Copy it for new work.
 
 
 Format:
