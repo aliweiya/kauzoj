@@ -11,3 +11,22 @@ needle on them?
 ## Site Components
 The theme is `mediator`, a theme by @dirkfabisch. Find it [here](https://github.com/dirkfabisch/mediator).
 The code is [MIT](LICENSE).
+
+
+## Building
+
+### Jekyll
+
+```
+bundle install; bundle exec jekyll build
+bundle exec htmlproofer ./_site --assume-extension
+bundle exec jekyll serve
+```
+
+### Heroku
+```
+heroku create
+heroku addons:create heroku-postgresql:hobby-dev
+# redis addon?
+git push heroku master
+```

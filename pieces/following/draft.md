@@ -140,3 +140,52 @@ The damage may have already been done [quick to condemn other things],
 
 In other news, Richard Spencer may be getting his money from cotton
 subsidies ($2 million), [worth of farm?] [ownership?]
+
+
+---
+  title: "Week 2 (13-19 Aug) briefing, & in-depth on [blank]"
+  author: Aelx
+  layout: default
+#  date:   2017-07-02 19:36:19 -0600
+  categories: news briefing
+  quicktags:
+    - concept
+  parental: false
+  encryption:
+    version: 0.1
+    newest: cleartext
+  source: nan
+  sources:
+    - nothin:
+      "Nothin."
+
+---
+
+Good [Morning|Evening], welcome to this week's broadcast regarding the
+week's news.
+
+---
+  title: "Week 3 (9-15 Oct) briefing, & in-depth on [blank]"
+  author: Aelx
+  layout: default
+#  date:   2017-07-02 19:36:19 -0600
+  categories: news briefing
+  quicktags:
+    - concept
+  parental: false
+  encryption:
+    version: 0.1
+    newest: cleartext
+  source: nan
+  sources:
+    - nothin:
+      "Nothin."
+
+---
+
+Good [Morning|Evening], welcome to this week's broadcast regarding the
+week's news.
+
+I've forgotten what I was doing with these tags...
+
+Gosh.

@@ -67,3 +67,53 @@ contactpoints:
 exclude:
   - Gemfile
   - Gemfile.lock
+
+radar:
+  search:
+    - people running for office
+      - gaining representation
+    - sites for causes
+    - news outlets
+    - opinionated youtube channels
+quicktags:
+  concept:
+    style: concept
+    msg: "This is a concept post"
+  editing:
+    style: editing
+    msg: "This post is marked as undergoing editing"
+  opinion:
+    style: opinion
+    msg: "This is an opinion based post. (most of our stuff is...)"
+  review:
+    style: review
+    msg: "This post is ready for review"
+  urgent:
+    style: urgent
+    msg: "Hey. Editing this is urgent"
+  WIP:
+    style: WIP
+    msg: "This is a WIP"
+pagelinks:
+  about:
+    title: about
+    url: /about/
+  causes:
+    title: causes
+    url: /causes/
+external:
+  github_link:
+    url: https://github.com/kauzoj/kauzoj.github.io
+    title: Kauzoj Source.
+bios:
+  Aelx:
+    name: Cameron Whiting
+    bio: >
+      Well, much ado about something
+    author_image: "/assets/images/author.jpg"
+  all:
+    name: Kaŭzoj Writers
+    bio: >
+      Kaŭzoj is written by a great team. Learn
+      more [here]](/people/).
+    author_image: "/assets/images/author.jpg"
