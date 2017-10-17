@@ -245,3 +245,4 @@ def crunchuser(user):
     redis.list['crunchedusers'].add(user)
 
 for user in UserTodos
+"""

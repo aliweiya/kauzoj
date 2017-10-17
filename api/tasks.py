@@ -8,12 +8,14 @@ def add(x, y):
 
 @app.task
 def newsapi():
+    pass
     # get articles
     # put in crawl queue
     # put in notifications queue
 
 @app.task
 def crawl(article):
+    pass
     # get crawl lock
     # crawl
     # store results

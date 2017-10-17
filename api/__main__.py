@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
+"""
+simply starts the module.
+"""
 #import pudb; pu.db
-# from .term.run import run as run
+from .run import run
 
 if __name__ == '__main__':
-    pass #run()
+    run()

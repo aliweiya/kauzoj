@@ -1,8 +1,17 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# pylint: disable=missing-docstring,invalid-name,bad-continuation,unused-import,too-few-public-methods
 from __future__ import absolute_import
 from __future__ import unicode_literals
+import txredisapi as redis
+from redlock import RedLock
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.orm import sessionmaker
 from abc import ABCMeta, abstractmethod
 import six
-from ..misc.errrrr import HearsayError
+from .mutils import HearsayError
 
 
 class ImplMissFeatures(HearsayError):
@@ -13,6 +22,9 @@ class ImplWrongVersion(HearsayError):
     pass
 
 class absStoreProvider(six.with_metaclass(ABCMeta, object)):
+    """
+    Provider definitions methodology
+    """
     def __init__(self):
         pass
 
@@ -24,6 +36,9 @@ class absStoreProvider(six.with_metaclass(ABCMeta, object)):
         raise NotImplementedError()
 
 class absStoreConsumer(object):
+    """
+    the main consumer methodology. Need to integrate that.
+    """
     def __init__(self, storage):
         if not isinstance(storage, abstractStorageProvider):
             raise CongrediBadInterfaceError('Bad Interface!')
@@ -34,6 +49,9 @@ class absStoreConsumer(object):
         self._store.queue(item)
 
 class MockStore(absStoreProvider):
+    """
+    The mock provider
+    """
     arr = {'queue':[]}
     def __init__(self, typeOf):
         self.type = typeOf
@@ -60,12 +78,6 @@ class MockStore(absStoreProvider):
             return []
 
 
-from __future__ import absolute_import
-from __future__ import unicode_literals
-import txredisapi as redis
-
-from redlock import RedLock
-from .airlock import absStoreProvider
 
 connaddr = 'localhost'
 connport = 6379
@@ -73,6 +85,11 @@ connport = 6379
 def redisSetup(host, port):  # test
     return redis.Connection(host, port)
 class RedisStore(abstractStorageProvider):
+    """
+    Redis abstraction.
+
+    really only useful to abstract databases between yaml/postgres...
+    """
 
     def __init__(self, connection=None):  # test
         if connection == None:
@@ -165,23 +182,22 @@ def todoRemove(mutexKey, todoList):  # test
     defer.returnValue(ret)
 
 
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# pylint: disable=missing-docstring,invalid-name,bad-continuation,unused-import,too-few-public-methods
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Boolean
-from sqlalchemy.orm import sessionmaker
 eng = create_engine('sqlite:///:memory:')
 
 Base = declarative_base()
 
 class KObj(Base):
+    """
+    Kauzoj Object base
+    """
     Id = Column(Integer, primary_key=True)
     Version = Column(Integer)
     Encrypted = Column(Boolean)
 
 class Article(KObj):
+    """
+    An article.
+    """
     Title = Column(String)
     Authors = Column()#one to many
     Sources = Column()#one to many
@@ -192,6 +208,9 @@ class Article(KObj):
     Signature = Column()#one to many
 
 class Author(KObj):
+    """
+    A Kauzoj Author.
+    """
     Title = Column(String)
     Twitter = Column(String)
     Email = Column(String)
@@ -199,21 +218,20 @@ class Author(KObj):
     ArticleLimit = Column(Integer)
 
 class Sources(KObj):
+    """
+    Article Souce URI
+    """
     Url = Column(String)
     Date = Column(String)
     Opinions = Column()#one to many
 
 class Signature(KObj):
+    """
+    Author PGP sig
+    """
     Reference = Column() #foreign key
     Author = Column() #foreign key
     Proof = Column(String)
-
-class Car(Base):
-    __tablename__ = "Cars"
-
-    Id = Column(Integer, primary_key=True)
-    Name = Column(String)
-    Price = Column(Integer)
 
 Base.metadata.bind = eng
 Base.metadata.create_all()

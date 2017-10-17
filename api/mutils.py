@@ -13,9 +13,11 @@ import uuid
 import zlib
 from difflib import unified_diff, ndiff, restore
 from pprint import pformat
-import frontmatter, base64, sys, webbrowser, hashlib
+import frontmatter, base64, webbrowser, hashlib
 from itertools import cycle
 from newsapi import articles, sources
+import calendar
+# import yaml
 
 import random as rand
 from six.moves import range, zip
@@ -158,9 +160,6 @@ def deepupdate(target, src):
     return target
 
 
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 
 
 class HearsayError(Exception):
@@ -174,9 +173,6 @@ class YouBeMessin(HearsayError):
     pass
 
 
-#!/usr/bin/env python
-import os, calendar
-# import yaml
 
 template = ""
 with open("assets/scripts/caltemplate.yml",'r') as t:

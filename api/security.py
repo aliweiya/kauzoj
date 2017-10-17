@@ -3,6 +3,18 @@
 from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
+from Crypto.Signature import PKCS1_v1_5
+from Crypto.Hash import SHA256
+from Crypto.Protocol.KDF import PBKDF2
+from Crypto.Util.Padding import unpad, pad
+from Crypto.Cipher import AES
+from Crypto import Random
+from six.moves import zip
+
+from mutils import PY3
+rng = Random.new().read
 """
 Low level security because hey, I'm lazy.
 """
@@ -51,32 +63,29 @@ class token():
 """
 This module provides homemade AONT packets. For fun.
 """
-from __future__ import absolute_import
-from __future__ import print_function
-from __future__ import unicode_literals
-from Crypto.Hash import SHA256
-from Crypto.Protocol.KDF import PBKDF2
-from Crypto.Util.Padding import unpad, pad
-from Crypto.Cipher import AES
-from Crypto import Random
-from six.moves import zip
-
-from mutils import PY3
-rng = Random.new().read
 
 class SafePack():
+    """
+    SafePack wrapper class
+    """
     cypher = None
     plain = None
-    def __init__(self,content,enc):
+    def __init__(self,content,enc,sig,sec):
+        if sig:
+            print('checking sig')
+        if sec and enc:
+            print('decrypting')
+        if sec and not enc:
+            print('encrypting')
         if enc:
             self.cypher = content
-            self.plain = __u__(content)
+            self.plain =self.__u__(content)
         else:
             self.plain = content
-            self.cypher = __e__(content)
+            self.cypher = self.__e__(content)
     def check(self):
-        assert self.cypher == __e__(self.plain)
-        assert self.plain == __u__(self.cypher)
+        assert self.cypher == self.__e__(self.plain)
+        assert self.plain == self.__u__(self.cypher)
     def __u__(self,content):
         return AONTdecrypt(DeXOR(content))
     def __e__(self,content):
@@ -84,15 +93,18 @@ class SafePack():
 
 
 def DeXOR(text,key=ScrapePreventionChildProtection):
+    """ XOR - """
     text = base64.decodestring(text)
     xored = ''.join(chr(ord(x) ^ ord(y)) for (x,y) in zip(text, cycle(key)))
     return xored
 def ReXOR(text,key=ScrapePreventionChildProtection):
+    """ XOR + """
     xored = ''.join(chr(ord(x) ^ ord(y)) for (x,y) in zip(text, cycle(key)))
     return base64.encodestring(xored).strip()
 
 
 def AONTencrypt(content):
+    """ AONT + """
     key_raw = PBKDF2(
         rng(32),
         salt=rng(16),
@@ -111,6 +123,7 @@ def AONTencrypt(content):
                  zip(hashable, key_raw)])
     return token + chard
 def AONTdecrypt(cyphertext):
+    """ AONT - """
     hashable = SHA256.new(cyphertext[:-32]).digest()
     key_xored = cyphertext[-32:]
     if PY3:  # py2 won't test
@@ -124,6 +137,9 @@ def AONTdecrypt(cyphertext):
         return default_aes(key2).decrypt(cyphertext[:-32])
 
 class default_aes():
+    """
+    default AES methods, because why not.
+    """
     secret = None
     def __init__(self, secret):
         self.secret = secret
@@ -141,19 +157,11 @@ class default_aes():
         decrypted = templock.decrypt(data[AES.block_size:])
         return unpad(decrypted, 16, 'pkcs7')
 
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-Public key crypto, like you just wanna cry.
-"""
-from __future__ import absolute_import
-from __future__ import print_function
-from __future__ import unicode_literals
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
-from Crypto.Signature import PKCS1_v1_5
-
 class default_rsa():
+    """
+    public key crypto methods, because I forget what
+    the library definitions are.
+    """
     key = None
 
     def __init__(self, publicKey=None, privateKey=None):

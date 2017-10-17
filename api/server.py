@@ -8,15 +8,31 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 #from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.contrib.fixers import ProxyFix
+from klein import Klein
+#!/usr/bin/env python
+from threading import Lock
+from flask import Flask, render_template, session, request
+from flask_socketio import SocketIO, Namespace, emit, join_room, leave_room, \
+    close_room, rooms, disconnect
+#!/usr/bin/env python
+from threading import Lock
+from flask import Flask, render_template, session, request
+from flask_socketio import SocketIO, emit, join_room, leave_room, \
+    close_room, rooms, disconnect
+from flask import Flask, render_template, session, request, jsonify
+from flask_login import LoginManager, UserMixin, current_user, login_user, \
+    logout_user
+from flask_session import Session
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL',"postgresql://postgres:mysecretpassword@127.0.0.1:5432/postgres")
+dburl = "postgresql://postgres:mysecretpassword@127.0.0.1:5432/postgres"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL',dburl)
 
 db = SQLAlchemy(app)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
-from klein import Klein
 app = Klein()
 gate = token('password')
 
@@ -96,11 +112,6 @@ if __name__ == '__main__':
 
 
 
-#!/usr/bin/env python
-from threading import Lock
-from flask import Flask, render_template, session, request
-from flask_socketio import SocketIO, Namespace, emit, join_room, leave_room, \
-    close_room, rooms, disconnect
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
 # different async modes, or leave it set to None for the application to choose
@@ -193,13 +204,6 @@ class MyNamespace(Namespace):
 socketio.on_namespace(MyNamespace('/test'))
 
 
-if __name__ == '__main__':
-    socketio.run(app, debug=True)
-#!/usr/bin/env python
-from threading import Lock
-from flask import Flask, render_template, session, request
-from flask_socketio import SocketIO, emit, join_room, leave_room, \
-    close_room, rooms, disconnect
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
 # different async modes, or leave it set to None for the application to choose
@@ -306,13 +310,6 @@ def test_disconnect():
     print('Client disconnected', request.sid)
 
 
-if __name__ == '__main__':
-    socketio.run(app, debug=True)
-from flask import Flask, render_template, session, request, jsonify
-from flask_login import LoginManager, UserMixin, current_user, login_user, \
-    logout_user
-from flask_session import Session
-from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'top-secret!'
@@ -377,4 +374,5 @@ def set_session(data):
 
 
 if __name__ == '__main__':
+    socketio.run(app, debug=True)
     socketio.run(app)
