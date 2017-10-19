@@ -1,25 +1,39 @@
 language: ruby
-# language: python
+# language: python (should work on standard container)
 sudo: false
-cache: bundler
-# cache: pip
-# python:
-#   - '2.7'
-#   - '3.6'
+cache:
+  - bundler
+  - pip
 rvm:
   - 2.2.5
 
-# install:
-#   - pip install -r api/requirements.txt
+install:
+  - pip install -r api/requirements.txt
 script:
-  # - green congredi -vvv
   - bundle exec jekyll build
   - bundle exec htmlproofer ./_site --assume-extension --disable-external
   - bundle exec htmlproofer ./_site --assume-extension || echo "Some External links broken..."
+  - green api -vvv
 
 env:
   global:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true # speeds up installation of html-proofer
 
+# before_deploy:
+#   - "./api/warnusers.py"
+# after_deploy:
+#   - "./api/removewarning.py"
 # deploy:
 #   provider: heroku
+#   api_key:
+#     master:
+#       secure: "YOUR ENCRYPTED API KEY" # travis encrypt $(heroku auth:token) --add deploy.api_key
+#     production:
+#       secure: "YOUR ENCRYPTED API KEY" # travis encrypt $(heroku auth:token) --add deploy.api_key
+#   app:
+#     master: specific-app-name-beta
+#     production: specific-app-name-prod
+#   run:
+#     - "./api/puke.py"
+#     - restart
+#     - "./api/initdb.py"

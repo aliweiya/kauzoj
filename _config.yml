@@ -1,5 +1,5 @@
 # Build settings
-gems:
+plugins:
   - jemoji
   - jekyll-paginate
   - jekyll-feed
@@ -67,6 +67,8 @@ contactpoints:
 exclude:
   - Gemfile
   - Gemfile.lock
+  - secret.key
+  - api/
 
 radar:
   search:
@@ -117,3 +119,25 @@ bios:
       Kaŭzoj is written by a great team. Learn
       more [here]](/people/).
     author_image: "/assets/images/author.jpg"
+columns:
+  - 0:
+    title: Affirmative Failure
+    code: AF
+  - 1:
+    title: Structural Tango, Policy Freestyle
+    code: STPF
+  - 2:
+    title: This Week's Fourier Transform
+    code: TWFT
+  - 3:
+    title: The Ordinary Mishap
+    code: TOM
+  - 4:
+    title: Private Divorce
+    code: PD
+  - 5:
+    title: '*Internal Screaming* "[External Justification]"'
+    code: ISEJ
+  - 6:
+    title: Recollect, Rebuttal, Rewind
+    code: RRR

@@ -7,7 +7,7 @@
    - https://unpkg.com/vue-form-wizard/dist/vue-form-wizard.js
    - /assets/js/vueout.js
   includes:
-   - snippets/helpwiz.html
+   - helpwiz.html
 ---
 Here at Kauzoj, we're looking to draw on our userbase to make our
 lives easier (don't have much time).

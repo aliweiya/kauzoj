@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 
-{% include templating/head.html %}
+{% include head.html %}
 <body>
-  {% include templating/header.html %}
+  {% include nav.html %}
   <div id="appt">
     {% if page.source %}
     <input id="source" value="{{page.source}}" hidden></input>
@@ -14,8 +14,8 @@
     {% for i in page.includes %}
     {% include {{i}} %}
     {% endfor %}
-    {% include templating/quicktag-code.html %}
-    {% include templating/edit-box.html %}
+    {% include quicktag-code.html %}
+    {% include edit-box.html %}
     <div class="wrapper">
       {% for d in page.divs %}
       <div id="{{d}}"><h1>{{d}}</h1></div>
@@ -32,8 +32,8 @@
       </div>
       <div v-if="false" id="loading"></div>
     </div>
-    {% include templating/footer.html %}
-    {% include templating/javascripts.html %}
+    {% include footer.html %}
+    {% include javascripts.html %}
   </div>
 </body>
 

@@ -1,9 +1,11 @@
 from __future__ import absolute_import
+from __future__ import print_function
 from __future__ import unicode_literals
 import multiprocessing
 import time
-from ..auth.token import app
-from .tor import prox
+import os
+from stem.control import Controller
+from stem import process
 
 
 class api(multiprocessing.Process):
@@ -29,12 +31,6 @@ if __name__ == "__main__":  # test
         dork.terminate()
         lone.terminate()
 
-from __future__ import absolute_import
-from __future__ import print_function
-from __future__ import unicode_literals
-import os
-from stem.control import Controller
-from stem import process
 # small rendesvous pieces (see MainLoop)
 
 

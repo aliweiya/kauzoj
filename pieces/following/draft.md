@@ -13,11 +13,11 @@
   source: nan
   sources:
     - "Amy Siskind, Medium.com - Week 39 (published Aug 12)": >
-        100 things that happened this week.
-    - "Morning Joe Presenter on August":
-      "tea party being non-violent is different than this. This was violent."
-    - "NPR Up First":
-      "republican leaders condemn"
+          100 things that happened this week.
+    - "Morning Joe Presenter on August": >
+        "tea party being non-violent is different than this. This was violent."
+    - "NPR Up First": >
+        "republican leaders condemn"
 
 ---
 
@@ -40,7 +40,7 @@ A WaPo survey said [republicans] supported postponing the election
 [are we sure it's because they thought it was illegals?]
 
 Trump has criticized [when, where] affirmitive action discrimination
-at american universities [give examples: "such as {{}}"].
+at american universities [give examples: "such as (blank)"].
 
 A bomb was thrown into the window of a mosque, and we had little
 coverage of that. [to save time, just email press@newsagency to double
