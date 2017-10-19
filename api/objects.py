@@ -17,14 +17,18 @@ from .mutils import HearsayError
 class ImplMissFeatures(HearsayError):
     """missing features."""
     pass
+
+
 class ImplWrongVersion(HearsayError):
     """wrong version"""
     pass
+
 
 class absStoreProvider(six.with_metaclass(ABCMeta, object)):
     """
     Provider definitions methodology
     """
+
     def __init__(self):
         pass
 
@@ -35,24 +39,29 @@ class absStoreProvider(six.with_metaclass(ABCMeta, object)):
     def queue(self, item):
         raise NotImplementedError()
 
+
 class absStoreConsumer(object):
     """
     the main consumer methodology. Need to integrate that.
     """
+
     def __init__(self, storage):
         if not isinstance(storage, abstractStorageProvider):
             raise CongrediBadInterfaceError('Bad Interface!')
         if not storage.version() == '1.0':
             raise CongrediIncompatibleVersionError('Non-compatible version!')
         self._store = storage
+
     def queue(self, item):
         self._store.queue(item)
+
 
 class MockStore(absStoreProvider):
     """
     The mock provider
     """
-    arr = {'queue':[]}
+    arr = {'queue': []}
+
     def __init__(self, typeOf):
         self.type = typeOf
         super(MockStorage, self).__init__(typeOf)
@@ -63,6 +72,7 @@ class MockStore(absStoreProvider):
     def queue(self, item):
         self.arr['queue'].update(item)
         print('queued item: {}'.format(item))
+
     def rdel(self, key):
         self.arr.remove(key)
         return b'OK'
@@ -78,12 +88,14 @@ class MockStore(absStoreProvider):
             return []
 
 
-
 connaddr = 'localhost'
 connport = 6379
 
+
 def redisSetup(host, port):  # test
     return redis.Connection(host, port)
+
+
 class RedisStore(abstractStorageProvider):
     """
     Redis abstraction.
@@ -93,7 +105,7 @@ class RedisStore(abstractStorageProvider):
 
     def __init__(self, connection=None):  # test
         if connection == None:
-            self._conn = redisSetup(connaddr,connport)
+            self._conn = redisSetup(connaddr, connport)
         super(RedisStore, self).__init__(connection)
 
     # actual writers
@@ -157,7 +169,6 @@ def Rdelete(key):  # test
     defer.returnValue(n)
 
 
-
 @defer.inlineCallbacks
 def todoAdd(mutexKey, todoList, key):  # test
     rc = yield redis.Connection(connaddr)
@@ -186,6 +197,7 @@ eng = create_engine('sqlite:///:memory:')
 
 Base = declarative_base()
 
+
 class KObj(Base):
     """
     Kauzoj Object base
@@ -194,18 +206,20 @@ class KObj(Base):
     Version = Column(Integer)
     Encrypted = Column(Boolean)
 
+
 class Article(KObj):
     """
     An article.
     """
     Title = Column(String)
-    Authors = Column()#one to many
-    Sources = Column()#one to many
+    Authors = Column()  # one to many
+    Sources = Column()  # one to many
     Filename = Column(String)
     Url = Column(String)
     Flags = Column()
     Body = Column(String)
-    Signature = Column()#one to many
+    Signature = Column()  # one to many
+
 
 class Author(KObj):
     """
@@ -217,21 +231,24 @@ class Author(KObj):
     RSA = Column(String)
     ArticleLimit = Column(Integer)
 
+
 class Sources(KObj):
     """
     Article Souce URI
     """
     Url = Column(String)
     Date = Column(String)
-    Opinions = Column()#one to many
+    Opinions = Column()  # one to many
+
 
 class Signature(KObj):
     """
     Author PGP sig
     """
-    Reference = Column() #foreign key
-    Author = Column() #foreign key
+    Reference = Column()  # foreign key
+    Author = Column()  # foreign key
     Proof = Column(String)
+
 
 Base.metadata.bind = eng
 Base.metadata.create_all()
@@ -240,14 +257,14 @@ Session = sessionmaker(bind=eng)
 ses = Session()
 
 ses.add_all(
-   [Car(Id=1, Name='Audi', Price=52642),
-    Car(Id=2, Name='Mercedes', Price=57127),
-    Car(Id=3, Name='Skoda', Price=9000),
-    Car(Id=4, Name='Volvo', Price=29000),
-    Car(Id=5, Name='Bentley', Price=350000),
-    Car(Id=6, Name='Citroen', Price=21000),
-    Car(Id=7, Name='Hummer', Price=41400),
-    Car(Id=8, Name='Volkswagen', Price=21600)])
+    [Car(Id=1, Name='Audi', Price=52642),
+     Car(Id=2, Name='Mercedes', Price=57127),
+     Car(Id=3, Name='Skoda', Price=9000),
+     Car(Id=4, Name='Volvo', Price=29000),
+     Car(Id=5, Name='Bentley', Price=350000),
+     Car(Id=6, Name='Citroen', Price=21000),
+     Car(Id=7, Name='Hummer', Price=41400),
+     Car(Id=8, Name='Volkswagen', Price=21600)])
 ses.commit()
 
 rs = ses.query(Car).all()

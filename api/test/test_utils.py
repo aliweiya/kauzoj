@@ -21,6 +21,8 @@ class test_censor_harness(TimedTestCase):
         self.threshold = .1
         ranges = pick_range(10)
         type(ranges[1])
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -61,6 +63,8 @@ class test_config(TimedTestCase):
         """openTest checks for admins & users NO ASSERT"""
         self.threshold = .1
         openTest('.test')
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -77,7 +81,7 @@ import logging
 def check_level():
     logging_code = logger.getEffectiveLevel()
     human_readable = logging.getLevelName(logging_code)
-    print ((logging_code, human_readable))
+    print((logging_code, human_readable))
     return (logging_code, human_readable)
 
 
@@ -112,6 +116,8 @@ class test_logger(TimedTestCase):
         args.debug = True
         passLevel(args)
         assert check_level() == (10, 'DEBUG')
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -152,6 +158,8 @@ class test_options(TimedTestCase):
                 print(("Caught: %s" % ex))
                 continue
             raise Exception("Didn't fail when I expected...")
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -169,6 +177,8 @@ class test_progress(TimedTestCase):
     def test_prog(self):
         self.threshold = 0.1
         together(1000)
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -187,6 +197,8 @@ class test_timing(TimedTestCase):
     def test_example_warning(self):
         self.threshold = 1
         time.sleep(2)
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """

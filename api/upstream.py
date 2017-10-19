@@ -15,10 +15,13 @@ import json
 
 def getsources(key):
     return sources.Sources(API_KEY=key).get(language="en")['sources']
-def getarticles(source,key):
+
+
+def getarticles(source, key):
     try:
         result = articles.Articles(API_KEY=key).get(source=source)['articles']
-    except: result = []
+    except:
+        result = []
     return result
 
 
@@ -28,22 +31,28 @@ dates = {}
 
 for source in getsources(key):
     a = 0
-    for article in getarticles(source['id'],key):
+    for article in getarticles(source['id'], key):
         article['source'] = source['name']
         article['hash'] = gethash(article)
-        year = 2017; month = 1; day = 1
+        year = 2017
+        month = 1
+        day = 1
         try:
             dt = parser.parse(article['publishedAt'])
             year = dt.year
             month = dt.month
             day = dt.day
-        except: pass
-        if year not in dates: dates[year] = {}
-        if month not in dates[year]: dates[year][month] = {}
-        if day not in dates[year][month]: dates[year][month][day] = []
+        except:
+            pass
+        if year not in dates:
+            dates[year] = {}
+        if month not in dates[year]:
+            dates[year][month] = {}
+        if day not in dates[year][month]:
+            dates[year][month][day] = []
         dates[year][month][day].append(article)
         a = a + 1
-    print("{}:{}".format(source['id'],a))
+    print("{}:{}".format(source['id'], a))
 
 # for year in sorted(list(dates.keys())):
 #     for month in sorted(list(dates[year].keys())):
@@ -52,17 +61,17 @@ for source in getsources(key):
 #             for article in dates[year][month][day]:
 #                 print(article)
 
-with open('db/articledb.json','w+') as dbjson:
+with open('db/articledb.json', 'w+') as dbjson:
     try:
         exdb = json.loads(dbjson.read())
         dates = deepupdate(exdb, dates)
     except:
         pass
-    dbjson.write(json.dumps(dates,indent=4, sort_keys=True))
+    dbjson.write(json.dumps(dates, indent=4, sort_keys=True))
 
-dst = "db/article-db-{}.json".format(datetime.now().strftime("%Y-%m-%d-at-%H-%M"))
+dst = "db/article-db-{}.json".format(
+    datetime.now().strftime("%Y-%m-%d-at-%H-%M"))
 copyfile('db/articledb.json', dst)
-
 
 
 file = args()
@@ -73,14 +82,14 @@ content_2 = post.content
 post['source'] = encrypt(final)
 post.content = final
 print(post)
-dump(post,file)
+dump(post, file)
 file = args()
 post = load(file)
 post['source'] = encrypt(post.content)
 post['encrypted'] = True
 post.content = "> this post has been encrypted.\n"
 print(post)
-dump(post,file)
+dump(post, file)
 # try:
 print("Begin News Loop.")
 key = getkey()
@@ -89,9 +98,10 @@ while True:
     # try:
     for source in getsources(key):
         print(source['id'])
-        for article in getarticles(source['id'],key):
+        for article in getarticles(source['id'], key):
             # add code to store if we've seen the article before
-            choice = raw_input("{}: {}\n{}\n{} Useful? (opens tab) (Y/n)".format(source['name'],article['title'],article['description'],article['url']))
+            choice = raw_input("{}: {}\n{}\n{} Useful? (opens tab) (Y/n)".format(
+                source['name'], article['title'], article['description'], article['url']))
             if choice == "y" or choice == "Y":
                 opentab(article['url'])
     # except: pass
@@ -118,12 +128,16 @@ post = load(file)
 post.content = decrypt(post['source'])
 post['encrypted'] = False
 print(post)
-dump(post,file)
+dump(post, file)
 
 
 #!/usr/bin/env python3
-import twitter, toml, json, os, sys
-with open("twitter.toml","r") as twoml:
+import twitter
+import toml
+import json
+import os
+import sys
+with open("twitter.toml", "r") as twoml:
     creds = toml.loads(twoml.read())
 api = twitter.Api(consumer_key=creds['consumer']['key'],
                   consumer_secret=creds['consumer']['secret'],
@@ -144,24 +158,24 @@ if not os.path.isfile("twitter-todo.json"):
     print(len(accts))
     for a in accts:
         seedaccts[a.id] = a
-    with open('twitter-todo.json','w+') as td:
-        json.dump(seedaccts,td)
+    with open('twitter-todo.json', 'w+') as td:
+        json.dump(seedaccts, td)
     #mentions = api.GetMentions()
 else:
-    with open('twitter-todo.json','r') as td:
+    with open('twitter-todo.json', 'r') as td:
         seedaccts = json.load(td)
 if os.path.isfile("twitter-mapped.json"):
-    with open('twitter-mapped.json','r') as tm:
+    with open('twitter-mapped.json', 'r') as tm:
         mappedaccts = json.load(tm)
 else:
     mappedaccts = {}
 todoaccts = {}
 print('for-loop, maps')
-## removing done accounts from seed accounts
+# removing done accounts from seed accounts
 for acct in mappedaccts.keys():
     if acct in seedaccts.keys():
         del seedaccts[acct]
-## removing mapped from seeds
+# removing mapped from seeds
 for acct in seedaccts.keys():
     if acct not in mappedaccts.keys():
         todoaccts.append(seedaccts[acct])
@@ -172,7 +186,9 @@ print(worldTrends.__dict__)
 for trend in worldTrends:
     print(trend)
 print('finished trends')
-## search accounts
+# search accounts
+
+
 def getuserinfo(user):
     name = user.name
     screen_name = user.screen_name
@@ -196,8 +212,10 @@ def getuserinfo(user):
 def getstatusinfo(status):
     retweeters = GetRetweeters(status.id)
 
+
 def getsearch(term):
     results = api.GetSearch(term=term)
+
 
 def getusersearch(term):
     results = api.GetUsersSearch(term=term)
@@ -212,8 +230,6 @@ for user in users:
     else:
         print('already mapped user')
 print('hello')
-
-
 
 
 """

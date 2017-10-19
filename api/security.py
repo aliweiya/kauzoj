@@ -22,6 +22,7 @@ Low level security because hey, I'm lazy.
 import jwt
 import datetime
 
+
 class token():
     """Simple JWT implementation"""
     secret = None
@@ -64,13 +65,15 @@ class token():
 This module provides homemade AONT packets. For fun.
 """
 
+
 class SafePack():
     """
     SafePack wrapper class
     """
     cypher = None
     plain = None
-    def __init__(self,content,enc,sig,sec):
+
+    def __init__(self, content, enc, sig, sec):
         if sig:
             print('checking sig')
         if sec and enc:
@@ -79,27 +82,32 @@ class SafePack():
             print('encrypting')
         if enc:
             self.cypher = content
-            self.plain =self.__u__(content)
+            self.plain = self.__u__(content)
         else:
             self.plain = content
             self.cypher = self.__e__(content)
+
     def check(self):
         assert self.cypher == self.__e__(self.plain)
         assert self.plain == self.__u__(self.cypher)
-    def __u__(self,content):
+
+    def __u__(self, content):
         return AONTdecrypt(DeXOR(content))
-    def __e__(self,content):
+
+    def __e__(self, content):
         return AONTencrypt(ReXOR(content))
 
 
-def DeXOR(text,key=ScrapePreventionChildProtection):
+def DeXOR(text, key=ScrapePreventionChildProtection):
     """ XOR - """
     text = base64.decodestring(text)
-    xored = ''.join(chr(ord(x) ^ ord(y)) for (x,y) in zip(text, cycle(key)))
+    xored = ''.join(chr(ord(x) ^ ord(y)) for (x, y) in zip(text, cycle(key)))
     return xored
-def ReXOR(text,key=ScrapePreventionChildProtection):
+
+
+def ReXOR(text, key=ScrapePreventionChildProtection):
     """ XOR + """
-    xored = ''.join(chr(ord(x) ^ ord(y)) for (x,y) in zip(text, cycle(key)))
+    xored = ''.join(chr(ord(x) ^ ord(y)) for (x, y) in zip(text, cycle(key)))
     return base64.encodestring(xored).strip()
 
 
@@ -122,6 +130,8 @@ def AONTencrypt(content):
                 [chr(ord(a) ^ ord(b)) for a, b in
                  zip(hashable, key_raw)])
     return token + chard
+
+
 def AONTdecrypt(cyphertext):
     """ AONT - """
     hashable = SHA256.new(cyphertext[:-32]).digest()
@@ -136,11 +146,13 @@ def AONTdecrypt(cyphertext):
              zip(hashable, key_xored)])
         return default_aes(key2).decrypt(cyphertext[:-32])
 
+
 class default_aes():
     """
     default AES methods, because why not.
     """
     secret = None
+
     def __init__(self, secret):
         self.secret = secret
 
@@ -156,6 +168,7 @@ class default_aes():
         templock = AES.new(self.secret, AES.MODE_CBC, iv)
         decrypted = templock.decrypt(data[AES.block_size:])
         return unpad(decrypted, 16, 'pkcs7')
+
 
 class default_rsa():
     """

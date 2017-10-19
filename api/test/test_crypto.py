@@ -2,14 +2,17 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 from six.moves import range
-import unittest, os
+import unittest
+import os
 # pylint: disable=missing-docstring,no-self-use,invalid-name,bad-whitespace,multiple-imports,wrong-import-order
 from ..crypto import AONTencrypt, AONTdecrypt, default_aes
 from Crypto.Protocol.KDF import PBKDF2
 
+
 class test_crypto(unittest.TestCase):
     def test_XOR(self):
         pass
+
     def test_AES_same(self):
         message = b'welcome to the test'
         key_raw = PBKDF2(
@@ -22,8 +25,9 @@ class test_crypto(unittest.TestCase):
         ciphertext = key.encrypt(message)
         result = key.decrypt(ciphertext)
         assert result == message
+
     def test_AES_random(self):
-        for _ in range(1,3):
+        for _ in range(1, 3):
             message = os.urandom(32)
             key_raw = PBKDF2(
                 os.urandom(32),
@@ -35,17 +39,21 @@ class test_crypto(unittest.TestCase):
             ciphertext = key.encrypt(message)
             result = key.decrypt(ciphertext)
             assert result == message
+
     def test_padding(self):
         message = b'welcome to the test'
         ciphertext = AONTencrypt(message)
         result = AONTdecrypt(ciphertext)
         assert result == message
+
     def test_padding_random(self):
-        for _ in range(1,3):
+        for _ in range(1, 3):
             message = os.urandom(32)
             ciphertext = AONTencrypt(message)
             result = AONTdecrypt(ciphertext)
             assert result == message
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -104,6 +112,7 @@ class test_default_aes(TimedTestCase):
         q = default_aes()
         res = q.disclose()
         assert res == q.secret
+
 
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
@@ -192,6 +201,8 @@ class test_RSA(TimedTestCase):
     def test_inits_options(self):
         a = default_rsa(publicKey=self.global_rsa_left.publicKey())
         assert a.publicKey() == self.global_rsa_left.publicKey()
+
+
         #b = default_rsa(privateKey=self.global_rsa_right.key)
         #assert b.key == self.global_rsa_right.key
 #!/usr/bin/env python
@@ -245,6 +256,8 @@ class test_padding(TimedTestCase):
             res_a = AONTdecrypt(a)
             res_b = AONTdecrypt(b)
             assert res_a == res_b
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -280,6 +293,8 @@ class test_kdf(TimedTestCase):
         assert password_1 != password_2
         assert len(password_1) == 32
         self.pw1 = password_1
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -305,6 +320,8 @@ class test_hash(TimedTestCase):
         print(check)
         assert res == check
         self.good_hash = res
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """

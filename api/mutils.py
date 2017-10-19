@@ -13,7 +13,10 @@ import uuid
 import zlib
 from difflib import unified_diff, ndiff, restore
 from pprint import pformat
-import frontmatter, base64, webbrowser, hashlib
+import frontmatter
+import base64
+import webbrowser
+import hashlib
 from itertools import cycle
 from newsapi import articles, sources
 import calendar
@@ -22,16 +25,22 @@ import calendar
 import random as rand
 from six.moves import range, zip
 
+
 def gethash(dictionary):
     h = hashlib.sha256(pformat(dictionary).encode('utf-8')).hexdigest()
     return h
 
+
 def RrandKey():  # test
     return str(uuid.uuid4().get_hex().upper()[0:6])
+
+
 def compressDiff(diff):
     """Zlib compression (before packet transmission/storage)"""
     diff = ensureBinary(diff)
     return zlib.compress(diff, 7)
+
+
 def uncompressDiff(archive):
     """Zlib decompression (before use)"""
     return ensureBinary(zlib.decompress(archive))
@@ -60,12 +69,12 @@ def resolveDiff(md1, md2):
     return result
 
 
-
 def pick_range(num):
     x = []
     for _ in range(0, num):
         x.append(rand.randrange(0, 32))
     return x
+
 
 def hexify(r):
     return binascii.hexlify(r)
@@ -82,6 +91,8 @@ else:
     # base_str = (bytes, str)
     # text_type = str
     # bin_type = (bytes, bytearray)
+
+
 def ensureBinary(statement):
     if not isinstance(statement, bin_type):
         print('EnsureBinary: swapping to binary from %s' % type(statement))
@@ -95,34 +106,46 @@ def ensureString(statement):
         statement = statement.decode('utf8')
     return statement
 
+
 ScrapePreventionChildProtection = "sgdhu0zJqMNwJMptmKK7,D2tD8NvxzqaOYTTsMyLF,GxE9O06PhZ76l26h3jWk,tbgpTwdRRrjPVatmRst0,Tjg05gCHSyVzwbdrDswZ,RYbgX8HE2RdJlucai4je,G68x6cY2lZlQmU1ndOEV,9gOCaOEkmcvwLFfgVLHb,PPJkVEbvB1WWx9YTUgIb,qTZGIfrqIv8FLSunL93A"
 
 
 def getkey():
-    with open('secret.key','r') as kf:
+    with open('secret.key', 'r') as kf:
         return kf.read().strip()
+
+
 def opentab(url):
     webbrowser.open(url)
-def new(filename,author):
-    post = {'author':author,'content':''}
+
+
+def new(filename, author):
+    post = {'author': author, 'content': ''}
     return post
+
+
 def load(filename):
     post = frontmatter.load(filename)
     #post.content, post['enc']
     return post
-def dump(content,filename):
-    with open(filename,'w+') as file:
+
+
+def dump(content, filename):
+    with open(filename, 'w+') as file:
         frontmatter.dump(content, file)
+
+
 def args():
     """get the filename from arguments"""
     return sys.argv[1]
+
+
 def pairwise(iterable):
     # Recipe from iterables (gift)
     "s -> (s0,s1), (s1,s2), (s2, s3), ..."
     a, b = tee(iterable)
     next(b, None)
     return list(zip(a, b))
-
 
 
 def deepupdate(target, src):
@@ -160,50 +183,56 @@ def deepupdate(target, src):
     return target
 
 
-
-
 class HearsayError(Exception):
     pass
+
 
 class WeBeMessin(HearsayError):
     """We messed up."""
     pass
+
+
 class YouBeMessin(HearsayError):
     """You messed up."""
     pass
 
 
-
 template = ""
-with open("assets/scripts/caltemplate.yml",'r') as t:
+with open("assets/scripts/caltemplate.yml", 'r') as t:
     template = t.read()
     # template = yaml.load(t.read())
 
-def genday(year,month,day):
-    dirpath = "_data/{}/{}/".format(year,month)
+
+def genday(year, month, day):
+    dirpath = "_data/{}/{}/".format(year, month)
     filepath = dirpath + "{}.yml".format(day)
     if not os.path.exists(dirpath):
         os.makedirs(dirpath)
     if not os.path.isfile(filepath):
-        with open(filepath,'w+') as f:
+        with open(filepath, 'w+') as f:
             f.write(template)
             # f.write(yaml.dump(template))
-def genmonth(year,month):
-    maxday = calendar.monthrange(year,month)[1]
-    for day in range(1,maxday+1):
-        genday(year,month,day)
+
+
+def genmonth(year, month):
+    maxday = calendar.monthrange(year, month)[1]
+    for day in range(1, maxday + 1):
+        genday(year, month, day)
+
 
 def genyear(year):
-    for month in range(1,13):
-        genmonth(year,month)
+    for month in range(1, 13):
+        genmonth(year, month)
+
 
 if __name__ == "__main__":
     genyear(2017)
 
+
 def addevent():
     datestring = raw_input("Enter yyyy/mm/dd: ")
     year, month, day = datestring.split("/")
-    genday(year,month,day)
+    genday(year, month, day)
     regionstring = raw_input("Enter region: ")
     """
     open yaml, insert item into region string

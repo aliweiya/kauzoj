@@ -97,6 +97,8 @@ class test_censor(TimedTestCase):
             print('Windows tests will not check valid english')
         else:
             assert test.check(b'#This *is* valid content')
+
+
     # Broken Test...
     # def test_valid_chinese():
     #	print('Should pass:')
@@ -177,6 +179,8 @@ class test_diff(TimedTestCase):
             'congredi/test/core/algos/a.txt',
             'congredi/test/core/algos/b.txt')
         print(type(diff))
+
+
         # not python3 compatible
         #patch = fromstring(silenceInsanity(diff))
         # print((patch.errors))
@@ -270,6 +274,8 @@ class test_interface(TimedTestCase):
             print('bad')
         except CongrediBadInterfaceError:
             print('good')
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -302,6 +308,8 @@ class test_redis(TimedTestCase):
         print(self.RedisStore._write(b'a', b'b'))
         print(self.RedisStore._read(b'a'))
         print(self.RedisStore._del(b'a'))
+
+
         #assert b'b' == self.RedisStore._read(b'a')
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-

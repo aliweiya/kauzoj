@@ -28,7 +28,7 @@ from flask_socketio import SocketIO, emit
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 dburl = "postgresql://postgres:mysecretpassword@127.0.0.1:5432/postgres"
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL',dburl)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', dburl)
 
 db = SQLAlchemy(app)
 app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -55,12 +55,15 @@ def jwt_use(tokn):  # test
 @app.route('/')
 def index():
     return 'hello'
+
+
 @app.route('/article/new/<name>')
 def newArticle(name):
     blarg = Article(name)
     db.session.add(blarg)
     db.session.commit()
     return "Created {}".format(blarg)
+
 
 @app.route('/article/list/')
 def listArticle():
@@ -69,6 +72,7 @@ def listArticle():
     for a in art:
         res = res + "<p>" + str(a) + "</p>"
     return res
+
 
 @app.route('/article/delete/<article>/')
 def deleteArticle(article):
@@ -80,22 +84,30 @@ def deleteArticle(article):
     else:
         return "Could not delete {}".format(article)
 
+
 @app.route('/push/<registerID>')
 def registerPush(registerID):
     registerPush()
     return True
 
+
 @app.route('/token/<userID>', methods=['GET'])
 def getToken(userID):
     # grab level of trust
     return True
+
+
 class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(60))
+
     def __init__(self, title=None):
         self.title = title
+
     def __repr__(self):
         return self.title
+
+
 try:
     print('creating')
     db.create_all()
@@ -109,8 +121,6 @@ if __name__ == '__main__':
     except Exception as e:
         print(e)
     app.run(host='0.0.0.0', port=port, debug=True)
-
-
 
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
@@ -202,7 +212,6 @@ class MyNamespace(Namespace):
 
 
 socketio.on_namespace(MyNamespace('/test'))
-
 
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
@@ -310,7 +319,6 @@ def test_disconnect():
     print('Client disconnected', request.sid)
 
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'top-secret!'
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -340,7 +348,7 @@ def session_access():
         return jsonify({
             'session': session.get('value', ''),
             'user': current_user.id
-                if current_user.is_authenticated else 'anonymous'
+            if current_user.is_authenticated else 'anonymous'
         })
     data = request.get_json()
     if 'session' in data:
@@ -358,7 +366,7 @@ def get_session():
     emit('refresh-session', {
         'session': session.get('value', ''),
         'user': current_user.id
-            if current_user.is_authenticated else 'anonymous'
+        if current_user.is_authenticated else 'anonymous'
     })
 
 
