@@ -96,7 +96,7 @@ quicktags:
   WIP:
     style: WIP
     msg: "This is a WIP"
-pagelinks:
+navlinks:
   about:
     title: about
     url: /about/

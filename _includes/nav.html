@@ -1,12 +1,19 @@
 <nav>
-  <h1 class="left-title">{{ site.title }}</h1>
-  <input class="center-searchbox form-control">
-  <div class="pagelinks">
-    {% for page in site.data.pagelinks %}
-      <a href="{{page.url}}" title="{{page.title}}">
-      {% if page.icon %}
-        <i class="fa fa-{{ page.icon }}"></i>
-      {% endif %}
-      </a>
-    {% endfor %}
+  <div class="left-box">
+    <h1 class="left-title"><a href="{{site.url}}">{{ site.title }}</a></h1>
+  </div>
+  <div class="center-box">
+    <input class="form-control">
+  </div>
+  <div class="right-box">
+    <div class="pagelinks">
+      {% for link in site.navlinks %}
+        <a href="{{link.url}}" title="{{link.title}}">
+        {% if link.icon %}
+          <i class="fa fa-{{ link.icon }}"></i>
+        {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
 </nav>
