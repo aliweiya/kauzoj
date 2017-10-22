@@ -407,3 +407,50 @@ no anouncement about october 4th niger
 
 
 ---
+
+Experts Project - KRACK exploit
+
+---
+
+[Washington not doing the census right](http://www.politico.com/agenda/story/2017/10/11/federal-data-collection-in-crisis-000537)
+
+---
+
+"No conflict of interest provision as president" - no... it means you're penalized
+for running your business at the same time
+
+"Details Continue to Leak Out About Trump's Russia Story" - Jan 13, 2017 The Late Show
+with Stephen Colbert
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
