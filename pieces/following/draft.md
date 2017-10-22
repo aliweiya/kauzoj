@@ -189,3 +189,95 @@ week's news.
 I've forgotten what I was doing with these tags...
 
 Gosh.
+
+
+---
+
+
+
+ToDo list - read through all drafts and pieces
+
+Check if paper has editions
+
+---
+
+# NPR hourly news - 10-22-2017 12PM ET
+
+Windsor Johnston
+
+Japanese prime minister Shinso Abe - winning in polls
+  dissolved house, called snap election
+  stability
+
+super-typhoon - could hit japan (tomorrow morning)
+
+Argentina - midterm elections
+  running for senator
+  disapearance of thousands during military
+
+secretary of state Rex Tilerson
+  middle east yesterday (riad saudi arabia) `track secretary of state`
+  Saudi Arabia, Iraq
+
+4 americans ambushed `crazy rachael maddow piece` - US military deployed troops `when`
+  Johanesberg
+
+
+---
+
+# Up First - Friday Oct 20th
+
+Chief of Staff John Kelly
+  Denounced democratic `congresman`
+  ~18 minutes `video:yt:wh`
+  marine general whose son was killed in afghanistan
+  Emotional detail of losing son.
+
+  president no longer denies
+  "he knew what he signed up for"
+  `going back on saying it's hard to comfort families and no other president did it`
+  "he knew what the posibilities were when he signed up for"
+
+  what happened in niger.
+
+  uses issues to distract from other stories - weigh in on the situation in niger
+  - he pivoted and critized
+
+  obama/bush gave criticisms
+  bush - bigotry
+  obama - politics of division
+
+  "rather partisan and nasty" - NPR's Suzan Davis
+
+Wall prototypes
+  8 finalists
+  congress is spending on huricanes right now
+  border could be protected with technology
+  "it's your county, do what you want... ...just don't ask us to pay for them"
+
+Japan - election on sunday
+  no long campaign, he called the election two weeks ago `video/statement`
+  cronyism scandal mentioned
+  NK - abe's leadership on the NK question
+  foreign policy in their voting
+  longest serving japanese prime minister outside of war time
+  turnout in 2015 - 50%
+  LDP - pragmatic, right wing on foreign policy,
+  in power all but a few years since 1955
+  consistent, same page as the US
+  played golf, visited trump `state visits`
+---
+
+
+
+---
+
+
+
+
+
+
+
+
+
+---
