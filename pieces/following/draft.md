@@ -266,14 +266,140 @@ Japan - election on sunday
   in power all but a few years since 1955
   consistent, same page as the US
   played golf, visited trump `state visits`
----
-
-
 
 ---
+# NBC nightly news - 10-21-2017 (201129)
 
 
+Ambush in niger
+  Johnson - 25yo father, florida
+  American forces diverged
+  signal from beacon tracked several hours
+  massive inteligence failure
+  drone base / drone hub across the continent
+  1/4 of the reconisance missions he needed
+  from 12 to 6 the capacity is halved `duh`
+  soldiers acted beyond their planned mission
+  who granted permission
 
+JFK assasination files
+  Donald will probably release them
+  congress said release within 25 years
+
+Bannon's Attack
+  Critized Bush at a republican
+
+O'reile
+  More people mad at him
+  "I did nothing wrong" - "I never did anything wrong or mistreated anyone under my watch"
+
+Police in Egypt
+  carefully planned ambush
+
+Forceful crackdown in catalonia
+  large crowds protesting
+  after defiant independance referendum
+  article `a` which has never been used
+  coup - sack a government democratically elected
+  "Democratically deciding the future of a country is not a crime"
+  central government responded with force (during the votes)
+  - Lucy
+
+NK to parliament of Australia
+  to dismiss the USA and the sanctions
+  foreign minister vow to continue nuclear program
+  exercises (naval stuff - had SEALs, decapitation thing?)
+
+huricane maria - puerto rico
+  water mostly restored
+  power not
+  lots moved to florida
+  more than 1,000 students - orlando
+  hire people as teachers from puerto rico
+
+paying for tax cuts by limiting 401k
+  to finance tax cuts, some republicans limit tax-free 401k contributions
+  new GOP tax plan - reduce tax benefit for 401k contributions
+  $2,400/year instead of 18,000/year tax free
+  115 billion dollars a year
+  tax reform is difficult - wanna have a massive tax cut (why not just... the rich?)
+
+Hidden Figures
+  3 women who worked for NASA - andrea michel
+  80 US embassies flooded with requests for screenings (find embassy schedules)
+  "you can't be what you can't see"
+  NASA scientist florence toms
+  World Economic Forum - 1/3 of Undergraduate STEM degrees
+  by 2024 - a million computer science jobs
+
+Emoji list
+  unicode consortium - meeting - maine/lobster - maine senator angus king
+  "there's a crab emoji, I mean, come on, the lobster is superior in every way" - `chk quote`
+  January 2018
+
+Body Cameras with police - cut down on violence?
+
+---
+
+# MSNBC Rachel Maddow 10-20-2017 (221230)
+
+> This is the weird conspiracy story.
+
+Refugee resettlement
+  hardliner on abortion
+  subject to that one official's
+  number of pregnant girls
+  directed employees to tell parents, take them to counciling centers
+  physically holding this girl, they have a right to see medical care,
+  this pregnant 17 year old has been refused a doctor (anybody else, an attorney)
+  "I feel like they are trying to coerce me to carry it to term"
+
+  get out of the way until tomorrow
+  another week and a half
+  find somebody for a week and a half
+
+  the longer they hold on to her, the less likely she's gonna be legally able to get them
+  texas bans abortions at 20 weeks
+
+  with power - 21%, today it's 12% with power
+
+  parts of the capital city went dark
+
+  1/4 without running water
+
+  inadequate response
+
+  tapping wells at superfund sites `map of those?`
+
+  deaths: 49
+
+  leptosporosis - open air water supplies
+
+  4 additional cases, as of today - 74
+
+yesterday's statement with john Kelly
+  death in combat with his son
+  defended president trump for condolence calls
+  extended / prepared, critique of congreswoman willson
+  physically with the family when she took the call on speakerphone
+
+  language the family found disrespectful
+  criticized her for being on that call (the widow made that decision)
+
+  criticized the comments she made at an FBI ceremony
+
+  not anything that he said (2015), tape of full remarks
+
+  she didn't brag about funding for the building, she got names right,
+  he got their names wrong
+
+  no apology, not taking back the remarks
+
+  highly inappropriate to get into a fight with a 4 star general
+
+no anouncement about october 4th niger
+  no group has claimed responsibilities
+  "might have been carried out by group related to ISIS"
 
 
 
