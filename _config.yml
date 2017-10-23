@@ -16,8 +16,8 @@ float_logo: true # true, false (default)
 # blog cover
 cover: "/assets/images/cA4aKEIPQrerBnp1yGHv_IMG_9534-3-2.jpg"
 paginate:	5
-url: "https://toxik.io/"
-baseurl: "kauzoj/"
+url: "https://toxik.io"
+baseurl: "/kauzoj"
 twitter_handle: '@kauzoj'
 social:
   - icon:	twitter
